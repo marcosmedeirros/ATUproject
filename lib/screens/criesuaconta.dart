@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telalogin/Screens/login.dart';
 
 class CrieSuaConta extends StatefulWidget {
   const CrieSuaConta({Key? key});
@@ -43,6 +44,12 @@ class _CrieSuaContaState extends State<CrieSuaConta> {
                     labelStyle: TextStyle(color: Colors.black),
                     hintStyle: TextStyle(color: Colors.black),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira seu nome';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Padding(
@@ -53,6 +60,12 @@ class _CrieSuaContaState extends State<CrieSuaConta> {
                     labelText: 'Email',
                     hintText: 'Digite seu email',
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty || !value.contains('@')) {
+                      return 'Por favor, insira um email válido';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Padding(
@@ -64,6 +77,12 @@ class _CrieSuaContaState extends State<CrieSuaConta> {
                     hintText: 'Digite sua senha',
                   ),
                   obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.length < 6) {
+                      return 'A senha deve ter pelo menos 6 caracteres';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Padding(
@@ -75,6 +94,12 @@ class _CrieSuaContaState extends State<CrieSuaConta> {
                     hintText: 'Digite o código',
                   ),
                   keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.length != 6) {
+                      return 'O código deve ter 6 dígitos';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Padding(
@@ -83,9 +108,15 @@ class _CrieSuaContaState extends State<CrieSuaConta> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Data de Nascimento',
-                    hintText: 'Digite sua data de nascimento',
+                    hintText: 'Digite sua data de nascimento (dd/mm/aaaa)',
                   ),
                   keyboardType: TextInputType.datetime,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || !isValidDate(value)) {
+                      return 'Por favor, insira uma data de nascimento válida (dd/mm/aaaa)';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
@@ -97,7 +128,14 @@ class _CrieSuaContaState extends State<CrieSuaConta> {
                     borderRadius: BorderRadius.circular(20)
                 ),
                 child: TextButton(
-                  onPressed: null,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => LoginScreen()),
+                      );
+                    }
+                  },
                   child: const Text(
                     'Criar Conta',
                     style: TextStyle(color: Colors.white, fontSize: 25),
@@ -109,5 +147,15 @@ class _CrieSuaContaState extends State<CrieSuaConta> {
         ),
       ),
     );
+  }
+
+  // Função para verificar se a data está no formato correto
+  bool isValidDate(String date) {
+    try {
+      DateTime.parse(date);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

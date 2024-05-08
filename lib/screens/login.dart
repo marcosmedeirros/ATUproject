@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
 import 'package:telalogin/screens/criesuaconta.dart';
+import 'package:telalogin/screens/nova_senha.dart'; // Importe a nova página aqui
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -58,7 +59,11 @@ class LoginScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  print('Screen esqueceu sua senha!');
+                  // Navegar para a página "NovaSenha" ao clicar no botão "Esqueceu sua Senha?"
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => NovaSenha()),
+                  );
                 },
                 child: const Text(
                   "Esqueceu sua Senha?",
