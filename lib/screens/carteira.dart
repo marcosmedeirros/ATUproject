@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
+import 'package:telalogin/screens/editar_usuario.dart'; // Importe a nova página aqui
 
 class Carteira extends StatefulWidget {
   const Carteira({Key? key});
@@ -20,7 +21,7 @@ class _CarteiraState extends State<Carteira> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Carteira'),
       ),
       body: Column(
         children: [
@@ -78,6 +79,22 @@ class _CarteiraState extends State<Carteira> {
                   ),
                 ],
               ),
+            ),
+          ),
+          // Botão para editar usuário
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue[900], // Define a cor do botão como Azul(900)
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => EditarUsuario()),
+              );
+            },
+            child: Text(
+              'Editar Usuário',
+              style: TextStyle(color: Colors.white), // Define a cor do texto como branco
             ),
           ),
           // Menu Inferior
