@@ -11,8 +11,8 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  int numeroViagens = 10;
   double saldoConta = 100.0;
+  int numeroViagens = 10;
 
   // Função para adicionar uma viagem e subtrair o saldo
   void adicionarViagem() {
@@ -64,11 +64,28 @@ class _InicioState extends State<Inicio> {
   }
 
   // Função de navegação personalizada
-  void navigateToPage(Widget page) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
+  void navigateToPage(Widget page) async {
+    if (page.runtimeType == Recarga) {
+      final valorRecarga = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => page),
+      );
+      if (valorRecarga != null) {
+        adicionarSaldo(valorRecarga);
+      }
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => page),
+      );
+    }
+  }
+
+  // Função para atualizar o saldo da conta com o valor da recarga
+  void adicionarSaldo(double valorRecarga) {
+    setState(() {
+      saldoConta += valorRecarga;
+    });
   }
 
   @override
@@ -79,13 +96,13 @@ class _InicioState extends State<Inicio> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 20), // Aumentei o espaçamento superior
+          SizedBox(height: 20),
           // Logo
           Padding(
-            padding: const EdgeInsets.all(1), // Diminuí a margem
+            padding: const EdgeInsets.all(1),
             child: Image.asset(
               'assets/images/logobus.png',
-              height: 200,
+              height: 300,
               width: 350,
             ),
           ),
@@ -158,7 +175,7 @@ class _InicioState extends State<Inicio> {
                 onPressed: zerar,
                 child: Text(
                   'Zerar',
-                  style: TextStyle(fontSize: 24, color: Colors.white), // Alterado para branco
+                  style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[900], // Mudado para azul(900)
@@ -176,37 +193,25 @@ class _InicioState extends State<Inicio> {
                   IconButton(
                     icon: Icon(Icons.home),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Inicio()),
-                      );
+                      navigateToPage(Inicio());
                     },
                   ),
                   IconButton(
                     icon: Icon(Icons.directions_bus),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Mapa()),
-                      );
+                      navigateToPage(Mapa());
                     },
                   ),
                   IconButton(
                     icon: Icon(Icons.account_balance_wallet),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Carteira()),
-                      );
+                      navigateToPage(Carteira());
                     },
                   ),
                   IconButton(
                     icon: Icon(Icons.credit_card),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Recarga()),
-                      );
+                      navigateToPage(Recarga());
                     },
                   ),
                 ],

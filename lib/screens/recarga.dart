@@ -3,7 +3,20 @@ import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
 import 'package:telalogin/screens/mapa.dart';
 
-class Recarga extends StatelessWidget {
+class Recarga extends StatefulWidget {
+  @override
+  _RecargaState createState() => _RecargaState();
+}
+
+class _RecargaState extends State<Recarga> {
+  TextEditingController _valorController = TextEditingController();
+
+  @override
+  void dispose() {
+    _valorController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,25 +33,23 @@ class Recarga extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
+                    controller: _valorController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(labelText: 'Adicionar Saldo'),
                   ),
                 ),
                 SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    // Adicionar a lógica para adicionar saldo aqui
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Saldo adicionado com sucesso!'),
-                      ),
-                    );
+                    double valorRecarga = double.tryParse(_valorController.text) ?? 0.0;
+                    Navigator.pop(context, valorRecarga); // Enviar valor de recarga
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[900], // Define a cor de fundo como Azul(900)
+                    backgroundColor: Colors.blue[900],
                   ),
                   child: Text(
                     'Adicionar',
-                    style: TextStyle(color: Colors.white), // Define a cor do texto como branco
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],
