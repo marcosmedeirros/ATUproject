@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telalogin/screens/carteira.dart';
+import 'package:telalogin/screens/mapa.dart';
 import 'package:telalogin/screens/recarga.dart';
 
 class Inicio extends StatefulWidget {
@@ -102,7 +103,10 @@ class _InicioState extends State<Inicio> {
                   IconButton(
                     icon: Icon(Icons.directions_bus),
                     onPressed: () {
-                      // Navegar para a página Linhas de Ônibus
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Mapa()),
+                      );
                     },
                   ),
                   IconButton(

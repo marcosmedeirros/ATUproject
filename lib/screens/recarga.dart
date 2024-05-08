@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
+import 'package:telalogin/screens/mapa.dart';
 
 class Recarga extends StatelessWidget {
   @override
@@ -94,7 +95,10 @@ class Recarga extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.directions_bus),
                     onPressed: () {
-                      // Navegar para a página Linhas de Ônibus
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Mapa()),
+                      );
                     },
                   ),
                   IconButton(

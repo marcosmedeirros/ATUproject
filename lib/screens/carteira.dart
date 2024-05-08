@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
 import 'package:telalogin/screens/editar_usuario.dart';
+import 'package:telalogin/screens/mapa.dart';
 import 'package:telalogin/screens/recarga.dart'; // Importe a nova página aqui
 
 class Carteira extends StatefulWidget {
@@ -117,7 +118,10 @@ class _CarteiraState extends State<Carteira> {
                   IconButton(
                     icon: Icon(Icons.directions_bus),
                     onPressed: () {
-                      // Navegar para a página Linhas de Ônibus
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Mapa()),
+                      );
                     },
                   ),
                   IconButton(
