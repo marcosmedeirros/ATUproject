@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telalogin/screens/carteira.dart';
+import 'package:telalogin/screens/recarga.dart';
 
 class Inicio extends StatefulWidget {
   const Inicio({Key? key});
@@ -116,7 +117,10 @@ class _InicioState extends State<Inicio> {
                   IconButton(
                     icon: Icon(Icons.credit_card),
                     onPressed: () {
-                      // Navegar para a página Linhas de Ônibus
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Recarga()),
+                      );
                     },
                   ),
                 ],
