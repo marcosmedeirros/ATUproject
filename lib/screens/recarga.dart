@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
 import 'package:telalogin/screens/mapa.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Recarga extends StatefulWidget {
   @override
@@ -36,14 +37,12 @@ class _RecargaState extends State<Recarga> {
                     controller: _valorController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(labelText: 'Adicionar Saldo'),
+                    enabled: false, // Campo desabilitado pq precisaria do banco
                   ),
                 ),
                 SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () {
-                    double valorRecarga = double.tryParse(_valorController.text) ?? 0.0;
-                    Navigator.pop(context, valorRecarga); // Enviar valor de recarga
-                  },
+                  onPressed: null, // Desativa o botão por causa do banco
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue[900],
                   ),
@@ -71,12 +70,17 @@ class _RecargaState extends State<Recarga> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
-              onPressed: () {
-                // Adicionar a lógica para recarregar aqui
+              onPressed: () async {
+                const url = 'https://wa.link/bt06ds';
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Não foi possível abrir o link $url';
+                }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[900], // Define a cor de fundo como Azul(900)
-                padding: EdgeInsets.symmetric(horizontal: 40), // Adiciona uma margem horizontal
+                backgroundColor: Colors.blue[900],
+                padding: EdgeInsets.symmetric(horizontal: 40),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -91,46 +95,49 @@ class _RecargaState extends State<Recarga> {
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.home),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Inicio()),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.directions_bus),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Mapa()),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.account_balance_wallet),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Carteira()),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.credit_card),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Recarga()),
-                      );
-                    },
-                  ),
-                ],
+              child: Container(
+                color: Colors.blue[900],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.home, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Inicio()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.directions_bus, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Mapa()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.account_balance_wallet, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Carteira()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.credit_card, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Recarga()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

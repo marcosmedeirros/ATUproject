@@ -1,11 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
 import 'package:telalogin/screens/criesuaconta.dart';
-import 'package:telalogin/screens/nova_senha.dart'; // Importe a nova página aqui
+import 'package:telalogin/screens/nova_senha.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _login(BuildContext context) {
+    final String email = _emailController.text;
+    final String password = _passwordController.text;
+
+    //login falso
+    if (email == "marcos@gmail.com" && password == "senha123") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => Inicio()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Email ou Senha incorretos')),
+      );
+    }
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email não pode estar vazio';
+    }
+
+    String pattern = r'\w+@\w+\.\w+';
+    if (!RegExp(pattern).hasMatch(value)) {
+      return 'Entre com um email válido';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +59,7 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
@@ -38,13 +69,15 @@ class LoginScreen extends StatelessWidget {
                     labelStyle: TextStyle(color: Colors.black),
                     hintStyle: TextStyle(color: Colors.black),
                   ),
+                  validator: _validateEmail,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
                 child: TextFormField(
-                  validator: (valor) {
-                    if (valor == null || valor.isEmpty) {
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
                       return 'Senha Invalida';
                     }
                     return null;
@@ -59,7 +92,6 @@ class LoginScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  // Navegar para a página "NovaSenha" ao clicar no botão "Esqueceu sua Senha?"
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => NovaSenha()),
@@ -78,13 +110,8 @@ class LoginScreen extends StatelessWidget {
                     color: Colors.blue[900], borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
                   onPressed: () {
-                    print('Screen app Login');
-
                     if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Inicio()),
-                      );
+                      _login(context);
                     }
                   },
                   child: const Text(

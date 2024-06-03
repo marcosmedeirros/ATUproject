@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telalogin/screens/carteira.dart';
 import 'package:telalogin/screens/inicio.dart';
-import 'package:telalogin/screens/editar_usuario.dart';
 import 'package:telalogin/screens/mapa.dart';
-import 'package:telalogin/screens/recarga.dart'; // Importe a nova página aqui
+import 'package:telalogin/screens/recarga.dart';
 
 class Carteira extends StatefulWidget {
   const Carteira({Key? key});
@@ -14,10 +12,64 @@ class Carteira extends StatefulWidget {
 
 class _CarteiraState extends State<Carteira> {
   // Dados do usuário
-  final String nome = 'João da Silva';
-  final String email = 'joao.silva@example.com';
-  final String dataNascimento = '01/01/1990';
-  final String codigo = '123456';
+  String nome = 'Marcos Medeiros';
+  String email = 'marcos@gmail.com';
+  String dataNascimento = '01/05/2023';
+  String codigo = '123456';
+
+  // Função para exibir o popup de edição
+  void _showEditDialog() {
+    TextEditingController nomeController = TextEditingController(text: nome);
+    TextEditingController emailController = TextEditingController(text: email);
+    TextEditingController dataNascimentoController = TextEditingController(text: dataNascimento);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Editar Usuário'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nomeController,
+                decoration: InputDecoration(labelText: 'Nome'),
+              ),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(labelText: 'Email'),
+              ),
+              TextField(
+                controller: dataNascimentoController,
+                decoration: InputDecoration(labelText: 'Data de Nascimento'),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  nome = nomeController.text;
+                  email = emailController.text;
+                  dataNascimento = dataNascimentoController.text;
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text('Salvar', style: TextStyle(color: Colors.white)),
+              style: TextButton.styleFrom(backgroundColor: Colors.blue[900]),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar', style: TextStyle(color: Colors.white)),
+              style: TextButton.styleFrom(backgroundColor: Colors.blue[900]),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,61 +140,59 @@ class _CarteiraState extends State<Carteira> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue[900], // Define a cor do botão como Azul(900)
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => EditarUsuario()),
-              );
-            },
+            onPressed: _showEditDialog,
             child: Text(
               'Editar Usuário',
               style: TextStyle(color: Colors.white), // Define a cor do texto como branco
             ),
           ),
-          // Menu Inferior
+
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.home),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Inicio()),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.directions_bus),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Mapa()),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.account_balance_wallet),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Carteira()),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.credit_card),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Recarga()),
-                      );
-                    },
-                  ),
-                ],
+              child: Container(
+                color: Colors.blue[900],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.home, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Inicio()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.directions_bus, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Mapa()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.account_balance_wallet, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Carteira()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.credit_card, color: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => Recarga()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -14,15 +14,19 @@ class _InicioState extends State<Inicio> {
   double saldoConta = 100.0;
   int numeroViagens = 10;
 
-  // Função para adicionar uma viagem e subtrair o saldo
   void adicionarViagem() {
-    setState(() {
-      numeroViagens++;
-      saldoConta -= 2.50;
-    });
+    if (saldoConta >= 2.50) {
+      setState(() {
+        numeroViagens++;
+        saldoConta -= 2.50;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Saldo insuficiente para adicionar uma viagem.')),
+      );
+    }
   }
 
-  // Função para subtrair uma viagem e adicionar ao saldo
   void subtrairViagem() {
     if (numeroViagens > 0) {
       setState(() {
@@ -32,7 +36,6 @@ class _InicioState extends State<Inicio> {
     }
   }
 
-  // Função para zerar o saldo e o número de viagens
   void zerar() {
     showDialog(
       context: context,
@@ -49,13 +52,13 @@ class _InicioState extends State<Inicio> {
                 });
                 Navigator.of(context).pop();
               },
-              child: Text('Sim'),
+              child: Text('Sim', style: TextStyle(color: Colors.blue[900])),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancelar'),
+              child: Text('Cancelar', style: TextStyle(color: Colors.blue[900])),
             ),
           ],
         );
@@ -63,7 +66,6 @@ class _InicioState extends State<Inicio> {
     );
   }
 
-  // Função de navegação personalizada
   void navigateToPage(Widget page) async {
     if (page.runtimeType == Recarga) {
       final valorRecarga = await Navigator.push(
@@ -81,7 +83,6 @@ class _InicioState extends State<Inicio> {
     }
   }
 
-  // Função para atualizar o saldo da conta com o valor da recarga
   void adicionarSaldo(double valorRecarga) {
     setState(() {
       saldoConta += valorRecarga;
@@ -106,7 +107,18 @@ class _InicioState extends State<Inicio> {
               width: 350,
             ),
           ),
-          // Menu de Viagens
+          // Título "Menu de Viagem"
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              'Menu de Viagem',
+              style: TextStyle(
+                color: Colors.blue[900],
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Card(
@@ -119,13 +131,12 @@ class _InicioState extends State<Inicio> {
                 ),
                 subtitle: Text(
                   'R\$ ${saldoConta.toStringAsFixed(2)}',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  style: const TextStyle(color: Colors.white, fontSize: 24),
                   textAlign: TextAlign.center,
                 ),
                 tileColor: Colors.blue[900],
                 contentPadding: EdgeInsets.all(20),
                 onTap: () {
-                  // Ação ao tocar no card
                 },
               ),
             ),
@@ -135,7 +146,7 @@ class _InicioState extends State<Inicio> {
             child: Card(
               color: Colors.blue[900],
               child: ListTile(
-                title: Text(
+                title: const Text(
                   'Número de Viagens',
                   style: TextStyle(color: Colors.white, fontSize: 18),
                   textAlign: TextAlign.center,
@@ -148,27 +159,25 @@ class _InicioState extends State<Inicio> {
                 tileColor: Colors.blue[900],
                 contentPadding: EdgeInsets.all(20),
                 onTap: () {
-                  // Ação ao tocar no card
                 },
               ),
             ),
           ),
-          // Botões para adicionar e subtrair viagens
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 onPressed: adicionarViagem,
-                child: Text('+', style: TextStyle(fontSize: 24)),
+                child: Text('Nova Viagem', style: TextStyle(fontSize: 24, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, // Mudando para verde
+                  backgroundColor: Colors.green,
                 ),
               ),
               ElevatedButton(
                 onPressed: subtrairViagem,
-                child: Text('-', style: TextStyle(fontSize: 24)),
+                child: Text('-', style: TextStyle(fontSize: 24, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // Mudando para vermelho
+                  backgroundColor: Colors.red,
                 ),
               ),
               ElevatedButton(
@@ -178,43 +187,45 @@ class _InicioState extends State<Inicio> {
                   style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[900], // Mudado para azul(900)
+                  backgroundColor: Colors.blue[900],
                 ),
               ),
             ],
           ),
-          // Menu Inferior
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.home),
-                    onPressed: () {
-                      navigateToPage(Inicio());
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.directions_bus),
-                    onPressed: () {
-                      navigateToPage(Mapa());
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.account_balance_wallet),
-                    onPressed: () {
-                      navigateToPage(Carteira());
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.credit_card),
-                    onPressed: () {
-                      navigateToPage(Recarga());
-                    },
-                  ),
-                ],
+              child: Container(
+                color: Colors.blue[900],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.home, color: Colors.white),
+                      onPressed: () {
+                        navigateToPage(Inicio());
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.directions_bus, color: Colors.white),
+                      onPressed: () {
+                        navigateToPage(Mapa());
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.account_balance_wallet, color: Colors.white),
+                      onPressed: () {
+                        navigateToPage(Carteira());
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.credit_card, color: Colors.white),
+                      onPressed: () {
+                        navigateToPage(Recarga());
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
