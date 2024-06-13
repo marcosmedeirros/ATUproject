@@ -103,8 +103,8 @@ class _InicioState extends State<Inicio> {
             padding: const EdgeInsets.all(1),
             child: Image.asset(
               'assets/images/logobus.png',
-              height: 300,
-              width: 350,
+              height: 200,
+              width: 150,
             ),
           ),
           // Título "Menu de Viagem"

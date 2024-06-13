@@ -65,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.black),
                     ),
                     labelText: 'Email',
-                    hintText: 'Entre com email Valido',
+                    hintText: 'Entre com email',
                     labelStyle: TextStyle(color: Colors.black),
                     hintStyle: TextStyle(color: Colors.black),
                   ),
